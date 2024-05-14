@@ -2620,6 +2620,7 @@ def run_gke_cluster_create_command(
       f' --machine-type={machine_type}'
       ' --enable-autoscaling'
       ' --total-min-nodes 1 --total-max-nodes 1000'
+      f' --create-subnetwork name={args.cluster}-subnetwork'
       f' --num-nodes {args.default_pool_cpu_num_nodes}'
       f' {args.custom_cluster_arguments}'
   )
@@ -3324,10 +3325,13 @@ def get_all_nodepools_programmatic(args) -> tuple[list[str], int]:
     xpk_print(f'Get All Node Pools returned ERROR {return_code}')
     return [], 1
 
-  all_nodepools = [x.split(' ')[0] for x in raw_nodepool_output.splitlines()]
-  # remove header=NAME from the nodepools list
-  if 'NAME' in all_nodepools:
-    all_nodepools.remove('NAME')
+  pattern = r'NAME:\s*(\w+(?:-\w+)*)'
+  all_nodepools = re.findall(pattern, raw_nodepool_output)
+  
+  # all_nodepools = [x.split(' ')[0] for x in raw_nodepool_output.splitlines()]
+  # # remove header=NAME from the nodepools list
+  # if 'NAME' in all_nodepools:
+  #   all_nodepools.remove('NAME')
   return all_nodepools, 0
 
 
