@@ -2945,7 +2945,7 @@ def get_capacity_arguments_from_capacity_type(
       capacity_args = '--spot'
     case CapacityType.RESERVATION:
       capacity_args = (
-          f'--reservation-affinity=specific --reservation={args.reservation} --placement-policy={args.reservation}'
+          f'--reservation-affinity=specific --reservation={args.reservation} --placement-policy={args.placement-policy}'
       )
     case _:
       xpk_print(
@@ -3327,7 +3327,7 @@ def get_all_nodepools_programmatic(args) -> tuple[list[str], int]:
 
   pattern = r'NAME:\s*(\w+(?:-\w+)*)'
   all_nodepools = re.findall(pattern, raw_nodepool_output)
-  
+
   # all_nodepools = [x.split(' ')[0] for x in raw_nodepool_output.splitlines()]
   # # remove header=NAME from the nodepools list
   # if 'NAME' in all_nodepools:
@@ -6655,6 +6655,13 @@ cluster_create_capacity_arguments.add_argument(
         'The reservation to be used for acquiring resources in the'
         ' cluster. This will attempt to find the provided reservation.'
         ' See `--spot` or `--on-demand` for other capacity types.'
+    ),
+)
+cluster_create_capacity_arguments.add_argument(
+    '--placement-policy',
+    type=str,
+    help=(
+        'Placement policy to find exact reservation'
     ),
 )
 cluster_create_capacity_arguments.add_argument(
