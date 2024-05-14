@@ -2945,7 +2945,7 @@ def get_capacity_arguments_from_capacity_type(
       capacity_args = '--spot'
     case CapacityType.RESERVATION:
       capacity_args = (
-          f'--reservation-affinity=specific --reservation={args.reservation} --placement-policy={args.placement-policy}'
+          f'--reservation-affinity=specific --reservation={args.reservation} --placement-policy={args.placement_policy}'
       )
     case _:
       xpk_print(
