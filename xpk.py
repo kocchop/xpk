@@ -4260,15 +4260,15 @@ def cluster_create(args) -> None:
   if return_code != 0:
     xpk_exit(return_code)
 
-  create_cluster_command_code = create_cluster_if_necessary(
-      args, gke_control_plane_version, system
-  )
-  if create_cluster_command_code != 0:
-    xpk_exit(create_cluster_command_code)
+  # create_cluster_command_code = create_cluster_if_necessary(
+  #     args, gke_control_plane_version, system
+  # )
+  # if create_cluster_command_code != 0:
+  #   xpk_exit(create_cluster_command_code)
 
-  set_cluster_command_code = set_cluster_command(args)
-  if set_cluster_command_code != 0:
-    xpk_exit(set_cluster_command_code)
+  # set_cluster_command_code = set_cluster_command(args)
+  # if set_cluster_command_code != 0:
+  #   xpk_exit(set_cluster_command_code)
 
   # create Vertex Tensorboard for new and existing clusters if create-vertex-tensorboard is set
   tensorboard_config = {}
@@ -4279,31 +4279,31 @@ def cluster_create(args) -> None:
       xpk_exit(1)
 
   device_type = args.tpu_type if args.tpu_type else args.device_type
-  if system.accelerator_type == AcceleratorType['GPU']:
-    xpk_print('Setting up Network for cluster')
-    set_up_cluster_network_code = set_up_cluster_network_for_gpu(args)
-    if set_up_cluster_network_code != 0:
-      xpk_exit(set_up_cluster_network_code)
+  # if system.accelerator_type == AcceleratorType['GPU']:
+  #   xpk_print('Setting up Network for cluster')
+  #   set_up_cluster_network_code = set_up_cluster_network_for_gpu(args)
+  #   if set_up_cluster_network_code != 0:
+  #     xpk_exit(set_up_cluster_network_code)
 
-  if device_type == h100_device_type:
-    xpk_print('Creating Network Config for cluster')
-    create_cluster_network_config_code = create_cluster_network_config(args)
-    if create_cluster_network_config_code != 0:
-      xpk_exit(create_cluster_network_config_code)
+  # if device_type == h100_device_type:
+  #   xpk_print('Creating Network Config for cluster')
+  #   create_cluster_network_config_code = create_cluster_network_config(args)
+  #   if create_cluster_network_config_code != 0:
+  #     xpk_exit(create_cluster_network_config_code)
 
   # Check the control plane version of the cluster and determine the node pool
   # version to use.
-  return_code, gke_node_pool_version = get_gke_node_pool_version(
-      args, gke_server_config
-  )
-  if return_code != 0:
-    xpk_exit(return_code)
+  # return_code, gke_node_pool_version = get_gke_node_pool_version(
+  #     args, gke_server_config
+  # )
+  # if return_code != 0:
+  #   xpk_exit(return_code)
 
-  run_gke_node_pool_create_command_code = run_gke_node_pool_create_command(
-      args, system, gke_node_pool_version
-  )
-  if run_gke_node_pool_create_command_code != 0:
-    xpk_exit(run_gke_node_pool_create_command_code)
+  # run_gke_node_pool_create_command_code = run_gke_node_pool_create_command(
+  #     args, system, gke_node_pool_version
+  # )
+  # if run_gke_node_pool_create_command_code != 0:
+  #   xpk_exit(run_gke_node_pool_create_command_code)
 
   xpk_print(
       'Enabling the jobset API on our cluster, to be deprecated when Jobset is'
